@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20160519195346) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "cuisines", force: :cascade do |t|
     t.string   "name"
     t.string   "img_path"
@@ -26,14 +29,14 @@ ActiveRecord::Schema.define(version: 20160519195346) do
     t.integer "dish_id"
   end
 
-  add_index "cuisines_dishes", ["cuisine_id", "dish_id"], name: "index_cuisines_dishes_on_cuisine_id_and_dish_id"
+  add_index "cuisines_dishes", ["cuisine_id", "dish_id"], name: "index_cuisines_dishes_on_cuisine_id_and_dish_id", using: :btree
 
   create_table "cuisines_spices", id: false, force: :cascade do |t|
     t.integer "cuisine_id"
     t.integer "spice_id"
   end
 
-  add_index "cuisines_spices", ["cuisine_id", "spice_id"], name: "index_cuisines_spices_on_cuisine_id_and_spice_id"
+  add_index "cuisines_spices", ["cuisine_id", "spice_id"], name: "index_cuisines_spices_on_cuisine_id_and_spice_id", using: :btree
 
   create_table "dishes", force: :cascade do |t|
     t.string   "name"
@@ -46,7 +49,7 @@ ActiveRecord::Schema.define(version: 20160519195346) do
     t.integer "spice_id"
   end
 
-  add_index "dishes_spices", ["dish_id", "spice_id"], name: "index_dishes_spices_on_dish_id_and_spice_id"
+  add_index "dishes_spices", ["dish_id", "spice_id"], name: "index_dishes_spices_on_dish_id_and_spice_id", using: :btree
 
   create_table "spices", force: :cascade do |t|
     t.string   "name"
