@@ -11,6 +11,36 @@ class Api::V1::SpicesController < ApplicationController
     render json: @spice if stale?(@spice)
   	end
 
+  # POST /spices
+  # POST /spices.json
+  def create
+    @spice = Spice.new(spice_params)
+
+    if @spice.save
+      render json: @spice, status: :created
+    else
+      render json: @spice.errors, status: :unprocessable_entity
+    end
+  end
+
+  # PATCH/PUT /spices/1
+  # PATCH/PUT /spices/1.json
+  def update
+    if @spice.update(spice_params)
+      head :no_content
+    else
+      render json: @spice.errors, status: :unprocessable_entity
+    end
+  end
+
+  # DELETE /spices/1
+  # DELETE /spices/1.json
+  def destroy
+    @spice.destroy
+
+    head :no_content
+  end
+
 
 	  private
     # Use callbacks to share common setup or constraints between actions.
@@ -20,7 +50,7 @@ class Api::V1::SpicesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def spice_params
-      params.require(:spice).permit(:name, :img_path, :description)
+      params.require(:spice).permit(:name, :imgPath, :description)
     end
 
     def default_serializer_options

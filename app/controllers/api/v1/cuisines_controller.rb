@@ -20,7 +20,7 @@ class Api::V1::CuisinesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def cuisine_params
-      params.require(:cuisine).permit(:name, :img_path, :description)
+      params.require(:cuisine).permit(:name, :imgPath, :description)
     end
 
     def default_serializer_options
