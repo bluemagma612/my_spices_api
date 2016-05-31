@@ -1,8 +1,14 @@
 class Api::V1::SpicesController < ApplicationController
 	before_action :set_spice, only: [:show, :update, :destroy]
+  before_action :find_cuisine
 
 	def index
-		@spices = Spice.all
+    #if passed a cuisine id parameter use it as filter, else show all spices
+    if @cuisine then
+		  @spices = @cuisine.spices
+    else
+      @spices = Spice.all
+    end
 
 		render json: @spices if stale?(etag: @spices.all, last_modified: @spices.maximum(:updated_at))
 	end
@@ -55,6 +61,13 @@ class Api::V1::SpicesController < ApplicationController
 
     def default_serializer_options
     	{ root: false }
+    end
+
+    #look for a cuisine_id in the request
+    def find_cuisine
+        if params[:cuisine_id]
+          @cuisine = Cuisine.find(params[:cuisine_id])
+        end
     end
 
 end
